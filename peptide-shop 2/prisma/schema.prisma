@@ -1,0 +1,97 @@
+// Base de datos de la tienda.
+//
+// Por defecto: SQLite en un archivo local (prisma/dev.db). Cero configuración,
+// funciona al instante y sirve perfectamente para el volumen de una operación
+// local. Para producción en Vercel/serverless hay que cambiar a PostgreSQL:
+// mira la sección "Base de datos" del README.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Una orden confirmada en el checkout.
+model Order {
+  id          String @id @default(cuid())
+  orderNumber String @unique
+
+  /// PENDIENTE · PREPARADA · ENTREGADA · CANCELADA
+  status String @default("PENDIENTE")
+
+  customerName  String
+  customerEmail String
+  customerPhone String
+  notes         String?
+
+  locationId   String
+  locationName String
+  /// "YYYY-MM-DD"
+  pickupDate   String
+  /// "HH:MM" en 24h
+  pickupTime   String
+
+  /// Total en USD, recalculado en el servidor desde el catálogo.
+  total Float
+  /// Margen vigente al momento de la orden, para poder auditar precios viejos.
+  markup Float
+  lang   String
+
+  /// Si el correo falló, la orden igual queda guardada y esto queda en false.
+  emailedCustomer Boolean @default(false)
+  emailedOwner    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+
+  @@index([status])
+  @@index([pickupDate])
+  @@index([createdAt])
+}
+
+/// Una línea de la orden: un compuesto a una dosis semanal, por N ciclos.
+model OrderItem {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId    String
+  productName  String
+  /// "vial" o "cartucho"
+  unit         String
+  weeklyDoseMg Float
+  /// cantidad de ciclos de 4 semanas
+  qty          Int
+
+  /// Precio de UN ciclo, y el total de la línea (ciclo × qty).
+  cyclePrice Float
+  lineTotal  Float
+
+  /// mg que el plan realmente entrega en el ciclo.
+  suppliedMg Float
+  /// Desglose de viales como JSON: [{ "sku": "TR20", "mg": 20, "qty": 1 }]
+  contents   String
+
+  @@index([orderId])
+}
+
+/// Pregunta enviada desde el buzón de la página de contacto.
+model ContactMessage {
+  id      String @id @default(cuid())
+  name    String
+  email   String
+  subject String
+  message String
+  lang    String
+
+  handled   Boolean  @default(false)
+  emailed   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([handled])
+}

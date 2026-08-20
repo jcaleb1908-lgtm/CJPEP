@@ -1,0 +1,13 @@
+# Configuración de Netlify.
+# El plugin oficial de Next.js convierte las rutas /api/* y las páginas
+# dinámicas en Netlify Functions automáticamente.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   Sistema de diseño — "clinical warmth"
+   Hueso cálido + verde profundo de laboratorio + acento cobre.
+   --------------------------------------------------------------- */
+@theme {
+  --color-bone: #f6f4ef;
+  --color-bone-dim: #edeae2;
+  --color-surface: #ffffff;
+  --color-ink: #101614;
+  --color-ink-soft: #3a4442;
+  --color-muted: #6f7b78;
+  --color-line: #e2ded4;
+
+  --color-brand-50: #eef6f3;
+  --color-brand-100: #d8ece5;
+  --color-brand-300: #7cbcaa;
+  --color-brand-500: #14806c;
+  --color-brand-600: #0f6a59;
+  --color-brand-700: #0b5044;
+  --color-brand-900: #06312a;
+
+  --color-copper: #b0763c;
+  --color-copper-soft: #f6ecdf;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
+
+  --shadow-soft: 0 1px 2px rgb(16 22 20 / 0.04), 0 8px 24px -12px rgb(16 22 20 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(16 22 20 / 0.05), 0 22px 48px -20px rgb(16 22 20 / 0.22);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bone);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Textura sutil de papel: da profundidad sin imágenes externas. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 85% -10%, rgb(20 128 108 / 0.07), transparent 70%),
+    radial-gradient(40rem 30rem at 0% 5%, rgb(176 118 60 / 0.05), transparent 70%);
+}
+
+::selection {
+  background: var(--color-brand-100);
+  color: var(--color-brand-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 76rem;
+  padding-inline: 1.25rem;
+}
+
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-brand-600);
+}
+
+@utility card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.5rem;
+  transition: background-color 150ms, color 150ms, border-color 150ms, transform 150ms,
+    box-shadow 150ms;
+  cursor: pointer;
+}
+@utility btn-primary {
+  background: var(--color-brand-600);
+  color: #fff;
+  box-shadow: var(--shadow-soft);
+}
+@utility btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-brand-700);
+}
+.btn-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--color-bone-dim);
+  border-color: var(--color-brand-300);
+}
+
+@utility field {
+  width: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+  transition: border-color 140ms, box-shadow 140ms;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px rgb(20 128 108 / 0.14);
+}
+.field[aria-invalid="true"] {
+  border-color: #b3261e;
+}
+
+@utility label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  margin-bottom: 0.375rem;
+}
+
+/* Leaflet: neutralizar el look por defecto para que combine con el sitio. */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background: var(--color-bone-dim);
+}
+.leaflet-control-attribution {
+  font-size: 10px;
+  background: rgb(255 255 255 / 0.85) !important;
+}
+
+@keyframes np-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility fade-up {
+  animation: np-fade-up 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
