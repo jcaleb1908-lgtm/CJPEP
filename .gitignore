@@ -1,0 +1,47 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# prisma / local db
+prisma/*.db
+prisma/*.db-journal
+prisma/dev.db*
+
+# build / cache
+dist/
+build/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# logs / debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# vercel / netlify local
+.vercel
+.netlify
+
+# coverage / test
+coverage/
+.nyc_output/
