@@ -39,16 +39,20 @@ Ese único número recalcula el grid, el modal, el carrito y los correos.
 
 ## Correr el sitio
 
-Node.js 24 LTS ya está instalado en esta Mac, en `~/.local/node`.
+Requiere **Node.js 18+** (se recomienda 20 o 24 LTS). La app Next.js vive en la
+**raíz de este repositorio** (`package.json`, `src/`, `prisma/`).
 
 ```bash
 npm install
 npm run dev     # http://localhost:3000
 ```
 
-`.env.local` ya viene configurado y la base de datos ya está creada. Sin
-credenciales de correo el sitio **funciona igual**: los correos se imprimen en
-la terminal en vez de enviarse. Perfecto para probar el flujo completo.
+Crea un `.env.local` con las variables que necesites (ver secciones de correo y
+admin abajo). Sin credenciales de correo el sitio **funciona igual**: los
+correos se imprimen en la terminal en vez de enviarse. Perfecto para probar el
+flujo completo.
+
+El zip histórico del proyecto está en [`archive/CJPeptidesPR-web.zip`](archive/CJPeptidesPR-web.zip).
 
 ## Configurar el correo
 
@@ -169,7 +173,7 @@ que mandan los correos— quedarían muertas. Dos caminos que sí funcionan:
 
 ### Camino A — Netlify CLI, sin Git (el más rápido)
 
-Descomprime el zip, entra a la carpeta y:
+Desde la raíz del repo:
 
 ```bash
 npm install
@@ -183,8 +187,9 @@ funciones. Acepta el directorio que sugiera.
 
 ### Camino B — GitHub → Netlify
 
-Sube el contenido del zip a un repo y en Netlify usa
-**Add new site → Import an existing project**. Detecta Next.js solo.
+Conecta este repositorio en Netlify con
+**Add new site → Import an existing project**. Detecta Next.js solo (la app
+está en la raíz).
 
 ### Variables de entorno en Netlify
 
